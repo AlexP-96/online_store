@@ -1,0 +1,13 @@
+.form__authorization {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  align-items: center;
+}
+.c__authorization {
+  max-width: 450px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin: 50px auto;
+}

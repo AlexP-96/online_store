@@ -1,0 +1,53 @@
+{
+  "notAuth": {
+    "card": {}
+  },
+  "accounts": [
+    {
+      "password": "fhfdhdfhfd",
+      "id": 1
+    },
+    {
+      "lastName": "123123fdsf",
+      "id": 2
+    },
+    {
+      "lastName": "123123fdsfsadsad",
+      "name": "12213123dfssadsad",
+      "email": "mail2131asdsad",
+      "password": "fhfdhdfhfdasdas",
+      "id": 3
+    },
+    {
+      "lastName": "123123fdsfsadsad",
+      "name": "12213123dfssadsad",
+      "email": "mail2131asdsad",
+      "password": "fhfdhdfhfdasdas",
+      "id": 4
+    },
+    {
+      "name": "dsfsdfsdf",
+      "id": 5
+    },
+    {
+      "name": "",
+      "id": 6
+    },
+    {
+      "name": "",
+      "id": 7
+    },
+    {
+      "name": "",
+      "lastName": "",
+      "email": "",
+      "password": "",
+      "id": 8
+    }
+  ],
+  "test": {
+    "id": "",
+    "login": "23131",
+    "password": "111ssssds"
+  }
+}
