@@ -30,26 +30,16 @@ const BannerHero = () => {
             className='carousel slide'
             data-bs-ride='carousel'
         >
-            <ol className='carousel-indicators'>
-                <li
-                    data-bs-target='#template-mo-zay-hero-carousel'
-                    data-bs-slide-to='0'
-                    className='active'
-                ></li>
-                <li
-                    data-bs-target='#template-mo-zay-hero-carousel'
-                    data-bs-slide-to='1'
-                ></li>
-                <li
-                    data-bs-target='#template-mo-zay-hero-carousel'
-                    data-bs-slide-to='2'
-                ></li>
-            </ol>
+
             <div className='carousel-inner'>
                 <Swiper
+                    modules={[Navigation, Pagination ]}
                     spaceBetween={50}
                     slidesPerView={1}
-                    onSwiper={(swiper) => (swiperRef.current = Swiper)}
+                    pagination={{ clickable: true }}
+                    scrollbar={{ draggable: true }}
+                    onSwiper={(swiper) => console.log(swiper)}
+                    onSlideChange={() => console.log('slide change')}
                 >
                     <SwiperSlide>
                         <div className='carousel-item'>
@@ -147,19 +137,31 @@ const BannerHero = () => {
                         </div>
                     </SwiperSlide>
 
+                    {/*<ol className='carousel-indicators'>*/}
+                    {/*    <li*/}
+                    {/*        className='swiper-pagination-bullet swiper-pagination-bullet-active'*/}
+                    {/*    ></li>*/}
+                    {/*    <li*/}
+                    {/*        className='swiper-pagination-bullet'*/}
+                    {/*    ></li>*/}
+                    {/*    <li*/}
+                    {/*        className='swiper-pagination-bullet'*/}
+                    {/*    ></li>*/}
+                    {/*</ol>*/}
+                    {/*<div className="swiper-button-prev">*/}
+                    {/*    <a className='carousel-control-prev text-decoration-none w-auto ps-3'>*/}
+                    {/*        <i className='fas fa-chevron-left'></i>*/}
+                    {/*    </a>*/}
+                    {/*</div>*/}
+                    {/*<div className="swiper-button-next">*/}
+                    {/*    <a className='carousel-control-next text-decoration-none w-auto pe-3'>*/}
+                    {/*        <i className='fas fa-chevron-right'></i>*/}
+                    {/*    </a>*/}
+                    {/*</div>*/}
+
                 </Swiper>
-                <a
-                    onClick={() => swiperRef.current.swiper.slidePrev()}
-                    className='carousel-control-prev text-decoration-none w-auto ps-3'
-                >
-                    <i className='fas fa-chevron-left'></i>
-                </a>
-                <a
-                    onClick={() => swiperRef.current.swiper.slideNext()}
-                    className='carousel-control-next text-decoration-none w-auto pe-3'
-                >
-                    <i className='fas fa-chevron-right'></i>
-                </a>
+
+
             </div>
 
         </div>
