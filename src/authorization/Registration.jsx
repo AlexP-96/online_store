@@ -76,7 +76,7 @@ const Authorization = () => {
 
                         let dataRes = await postData.json();
 
-                        await localStorage.setItem('authUser', registration.auth);
+                        await localStorage.setItem('authUser', true);
 
                         setLoad(false);
 
