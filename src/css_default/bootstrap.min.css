@@ -5412,7 +5412,7 @@ fieldset:disabled .btn {
 }
 .carousel-item {
   position: relative;
-  display: none;
+  /*display: none;*/
   float: left;
   width: 100%;
   margin-right: -100%;

@@ -5,9 +5,6 @@ import { useSelector, useDispatch } from "react-redux";
 
 const HeaderBottom = () => {
 
-    const dataAuth = useSelector(state => state.auth.count);
-    const dispatch = useDispatch();
-
     return (
 
         <nav className="navbar navbar-expand-lg navbar-light shadow">

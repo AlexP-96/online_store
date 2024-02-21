@@ -10,8 +10,6 @@ import {
 } from 'react-redux';
 import spinner from '../source/spinners/Iphone-spinner-2.gif';
 import { useNavigate } from 'react-router-dom';
-import { redirect } from 'react-router-dom';
-import rootingReducer from '../reducers/authReduser';
 
 const Authorization = () => {
 
@@ -31,15 +29,9 @@ const Authorization = () => {
     useEffect(() => {
         let authUser = JSON.parse(localStorage.getItem('authUser'));
         if (authUser) {
-            navigate('/');
+            navigate('/study');
         }
     }, []);
-
-    // useEffect(() => {
-    //     if (localStorage.getItem('authUser')) {
-    //         redirect('/study');
-    //     }
-    // }, [registration.auth]);
 
     const validateEmail = (email) => {
         const regex = /^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/;
@@ -85,14 +77,6 @@ const Authorization = () => {
 
                         localStorage.setItem('authUser', registration.auth);
 
-                        // await setRegistration({
-                        //     name: '',
-                        //     lastName: '',
-                        //     email: '',
-                        //     password: '',
-                        //     auth: true,
-                        // });
-
                         setLoad(false);
 
                         alert(`Пользователь с именем ${dataRes.name} успешно зарегистрирован`);
@@ -107,10 +91,6 @@ const Authorization = () => {
         }
 
     };
-
-    const selectorName = useSelector(state => state.auth.name);
-
-    const dispatch = useDispatch();
 
     return (
         <div className='c__authorization'>
