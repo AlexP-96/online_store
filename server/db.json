@@ -43,6 +43,22 @@
       "email": "",
       "password": "",
       "id": 8
+    },
+    {
+      "name": "Александр",
+      "lastName": "Пупышев",
+      "email": "alex@mail.ru",
+      "password": "fhfdhdfhfdasdas",
+      "auth": false,
+      "id": 9
+    },
+    {
+      "name": "Александр",
+      "lastName": "Пупышев",
+      "email": "alex1@mail.ru",
+      "password": "fhfdhdfhfdasdas",
+      "auth": false,
+      "id": 10
     }
   ],
   "test": {
