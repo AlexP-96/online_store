@@ -13,12 +13,16 @@ const UserAuthorized = () => {
     }
 
     const infoUser = () => {
-        (async function () {
-            let dataUser = await fetch(url + 'accounts');
+        if (dataStorage) {
+            (async function () {
+                let dataUser = await fetch(url + 'accounts');
 
-            let response = await dataUser.json();
-            console.log(response);
-        }());
+                let response = await dataUser.json();
+                console.log(response);
+            }());
+        } else {
+            alert('иди отсюда, пидор грязный');
+        }
     };
 
     useEffect(() => {
