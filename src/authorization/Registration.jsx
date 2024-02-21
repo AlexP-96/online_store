@@ -31,7 +31,7 @@ const Authorization = () => {
         if (authUser) {
             navigate('/study');
         }
-    }, []);
+    }, [JSON.parse(localStorage.getItem('authUser'))]);
 
     const validateEmail = (email) => {
         const regex = /^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/;
@@ -61,25 +61,27 @@ const Authorization = () => {
                     let dataCurrent = fetchUsers.find(empty => (registration.email === empty.email));
 
                     if (dataCurrent === undefined) {
-                        setRegistration({
+                        await setRegistration({
                             ...registration,
                             auth: true,
                         });
+
                         let postData = await fetch(url + 'accounts', {
                             method: 'POST',
                             headers: {
                                 'Content-Type': 'application/json;charset=utf-8',
                             },
-                            body: JSON.stringify(registration),
+                            body: JSON.stringify({...registration, auth: true}),
                         });
 
                         let dataRes = await postData.json();
 
-                        localStorage.setItem('authUser', true);
+                        await localStorage.setItem('authUser', registration.auth);
 
                         setLoad(false);
 
                         alert(`Пользователь с именем ${dataRes.name} успешно зарегистрирован`);
+                        navigate('/study');
                     } else {
                         alert(`Данный email уже заргестрирован, попробуйде другой`);
                         setLoad(false);
