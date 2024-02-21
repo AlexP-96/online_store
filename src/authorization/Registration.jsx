@@ -1,14 +1,21 @@
-import React, { useState } from 'react';
+import React, {
+    useEffect,
+    useState,
+} from 'react';
 
 import './style.css';
 import {
     useSelector,
     useDispatch,
 } from 'react-redux';
-import spinner from '../source/spinners/Iphone-spinner-2.gif'
+import spinner from '../source/spinners/Iphone-spinner-2.gif';
+import { useNavigate } from 'react-router-dom';
+import { redirect } from 'react-router-dom';
 import rootingReducer from '../reducers/authReduser';
 
 const Authorization = () => {
+
+    const navigate = useNavigate();
 
     const url = 'http://localhost:3000/';
 
@@ -17,37 +24,32 @@ const Authorization = () => {
         lastName: '',
         email: '',
         password: '',
-        secret: '',
+        auth: false,
     });
     const [isLoad, setLoad] = useState(false);
+
+    useEffect(() => {
+        let authUser = JSON.parse(localStorage.getItem('authUser'));
+        if (authUser) {
+            navigate('/');
+        }
+    }, []);
+
+    // useEffect(() => {
+    //     if (localStorage.getItem('authUser')) {
+    //         redirect('/study');
+    //     }
+    // }, [registration.auth]);
 
     const validateEmail = (email) => {
         const regex = /^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/;
         return regex.test(email);
     };
 
-    const regName = (e) => {
+    const regDateUser = (e, value) => {
         setRegistration({
             ...registration,
-            name: e.target.value,
-        });
-    };
-    const regLastName = (e) => {
-        setRegistration({
-            ...registration,
-            lastName: e.target.value,
-        });
-    };
-    const regEmail = (e) => {
-        setRegistration({
-            ...registration,
-            email: e.target.value,
-        });
-    };
-    const setPassword = (e) => {
-        setRegistration({
-            ...registration,
-            password: e.target.value,
+            [value]: e.target.value,
         });
     };
 
@@ -67,6 +69,10 @@ const Authorization = () => {
                     let dataCurrent = fetchUsers.find(empty => (registration.email === empty.email));
 
                     if (dataCurrent === undefined) {
+                        setRegistration({
+                            ...registration,
+                            auth: true,
+                        });
                         let postData = await fetch(url + 'accounts', {
                             method: 'POST',
                             headers: {
@@ -76,25 +82,30 @@ const Authorization = () => {
                         });
 
                         let dataRes = await postData.json();
-                        await setRegistration({
-                            name: '',
-                            lastName: '',
-                            email: '',
-                            password: '',
-                            secret: '',
-                        });
+
+                        localStorage.setItem('authUser', registration.auth);
+
+                        // await setRegistration({
+                        //     name: '',
+                        //     lastName: '',
+                        //     email: '',
+                        //     password: '',
+                        //     auth: true,
+                        // });
+
                         setLoad(false);
-                        alert(`Пользователь с именем ${dataRes.name} изпешно зарегистрирован`)
+
+                        alert(`Пользователь с именем ${dataRes.name} успешно зарегистрирован`);
                     } else {
-                        alert('Данный email уже заргестрирован, попробуйде другой');
+                        alert(`Данный email уже заргестрирован, попробуйде другой`);
                         setLoad(false);
                     }
                 } catch (err) {
                     alert(err);
                 }
             })();
-
         }
+
     };
 
     const selectorName = useSelector(state => state.auth.name);
@@ -119,27 +130,27 @@ const Authorization = () => {
                         required
                         value={registration.name}
                         placeholder='name'
-                        onChange={regName}
+                        onChange={(e) => regDateUser(e, 'name')}
                     />
                     <input
                         type='text'
                         placeholder='last_name'
                         value={registration.lastName}
-                        onChange={regLastName}
+                        onChange={(e) => regDateUser(e, 'lastName')}
                     />
                     <input
                         type='text'
                         required
                         placeholder='email'
                         value={registration.email}
-                        onChange={regEmail}
+                        onChange={(e) => regDateUser(e, 'email')}
                     />
                     <input
                         type='password'
                         required
                         placeholder='password'
                         value={registration.password}
-                        onChange={setPassword}
+                        onChange={(e) => regDateUser(e, 'password')}
                     />
                     <input
                         type='hidden'
