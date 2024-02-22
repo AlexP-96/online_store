@@ -33,7 +33,10 @@ const BannerHero = () => {
 
             <div className='carousel-inner'>
                 <Swiper
-                    modules={[Navigation, Pagination ]}
+                    modules={[
+                        Navigation,
+                        Pagination,
+                    ]}
                     spaceBetween={50}
                     slidesPerView={1}
                     pagination={{ clickable: true }}
@@ -148,19 +151,16 @@ const BannerHero = () => {
                     {/*        className='swiper-pagination-bullet'*/}
                     {/*    ></li>*/}
                     {/*</ol>*/}
-                    {/*<div className="swiper-button-prev">*/}
-                    {/*    <a className='carousel-control-prev text-decoration-none w-auto ps-3'>*/}
-                    {/*        <i className='fas fa-chevron-left'></i>*/}
-                    {/*    </a>*/}
-                    {/*</div>*/}
-                    {/*<div className="swiper-button-next">*/}
-                    {/*    <a className='carousel-control-next text-decoration-none w-auto pe-3'>*/}
-                    {/*        <i className='fas fa-chevron-right'></i>*/}
-                    {/*    </a>*/}
-                    {/*</div>*/}
+
+                    {/*<a className='carousel-control-prev text-decoration-none w-auto ps-3'>*/}
+                    {/*    <i className='fas fa-chevron-left'></i>*/}
+                    {/*</a>*/}
+
+                    {/*<a className='carousel-control-next text-decoration-none w-auto pe-3'>*/}
+                    {/*    <i className='fas fa-chevron-right'></i>*/}
+                    {/*</a>*/}
 
                 </Swiper>
-
 
             </div>
 

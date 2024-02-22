@@ -16,7 +16,6 @@ const UserAuthorized = () => {
         if (dataStorage) {
             (async function () {
                 let dataUser = await fetch(url + 'accounts');
-
                 let response = await dataUser.json();
                 console.log(response);
             }());
