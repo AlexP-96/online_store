@@ -8,10 +8,15 @@ import {
     useSelector,
     useDispatch,
 } from 'react-redux';
-import spinner from '../source/spinners/Iphone-spinner-2.gif';
+
+import { actionUserAuth } from '../../redux/actions/actionsAuth';
+
+import spinner from '../../source/spinners/Iphone-spinner-2.gif';
 import { useNavigate } from 'react-router-dom';
 
 const Authorization = () => {
+
+    const dispatchUser = useDispatch();
 
     const navigate = useNavigate();
 
@@ -71,7 +76,10 @@ const Authorization = () => {
                             headers: {
                                 'Content-Type': 'application/json;charset=utf-8',
                             },
-                            body: JSON.stringify({...registration, auth: true}),
+                            body: JSON.stringify({
+                                ...registration,
+                                auth: true,
+                            }),
                         });
 
                         let dataRes = await postData.json();
@@ -81,6 +89,12 @@ const Authorization = () => {
                         setLoad(false);
 
                         alert(`Пользователь с именем ${dataRes.name} успешно зарегистрирован`);
+
+                        dispatchUser(actionUserAuth({
+                            name: dataRes.name,
+                            email: dataRes.email,
+                        }));
+
                         navigate('/study');
                     } else {
                         alert(`Данный email уже заргестрирован, попробуйде другой`);
@@ -104,7 +118,7 @@ const Authorization = () => {
             {!isLoad &&
                 <form
                     onSubmit={submitData}
-                    action=''
+                    action='online_store/src/components/authorization/Registration'
                     className='form__authorization'
                 >
                     <input

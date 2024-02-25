@@ -21,7 +21,7 @@ import About from './components/pages/about/About';
 import Contacts from './components/contacts/Contacts';
 import Shop from './components/shop/Shop';
 import SignUp from './components/contacts/authorization/SignUp';
-import Authorization from './authorization/Registration';
+import Authorization from './components/authorization/Registration';
 import UserAuthorized from './components/authorizied_user/UserAuthorized';
 
 const App = () => (
