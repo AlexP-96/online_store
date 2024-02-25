@@ -17,6 +17,7 @@ import { useNavigate } from 'react-router-dom';
 const Authorization = () => {
 
     const dispatchUser = useDispatch();
+    const selector = useSelector(state => state.userAuth);
 
     const navigate = useNavigate();
 
@@ -33,9 +34,10 @@ const Authorization = () => {
 
     useEffect(() => {
         let authUser = JSON.parse(localStorage.getItem('authUser'));
-        if (authUser) {
-            navigate('/study');
-        }
+
+        // if (authUser) {
+        //     navigate('/study');
+        // }
     }, [JSON.parse(localStorage.getItem('authUser'))]);
 
     const validateEmail = (email) => {
@@ -95,7 +97,10 @@ const Authorization = () => {
                             email: dataRes.email,
                         }));
 
-                        navigate('/study');
+                        if (selector.auth) {
+                            navigate('/study');
+                        }
+
                     } else {
                         alert(`Данный email уже заргестрирован, попробуйде другой`);
                         setLoad(false);
