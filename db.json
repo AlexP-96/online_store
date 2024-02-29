@@ -1,0 +1,181 @@
+{
+  "notAuth": {
+    "card": {}
+  },
+  "accounts": [
+    {
+      "password": "fhfdhdfhfd",
+      "id": 1
+    },
+    {
+      "lastName": "123123fdsf",
+      "id": 2
+    },
+    {
+      "lastName": "123123fdsfsadsad",
+      "name": "12213123dfssadsad",
+      "email": "mail2131asdsad",
+      "password": "fhfdhdfhfdasdas",
+      "id": 3
+    },
+    {
+      "lastName": "123123fdsfsadsad",
+      "name": "12213123dfssadsad",
+      "email": "mail2131asdsad",
+      "password": "fhfdhdfhfdasdas",
+      "id": 4
+    },
+    {
+      "name": "dsfsdfsdf",
+      "id": 5
+    },
+    {
+      "name": "",
+      "id": 6
+    },
+    {
+      "name": "",
+      "id": 7
+    },
+    {
+      "name": "",
+      "lastName": "",
+      "email": "",
+      "password": "",
+      "id": 8
+    },
+    {
+      "name": "Александр",
+      "lastName": "Пупышев",
+      "email": "alex@mail.ru",
+      "password": "fhfdhdfhfdasdas",
+      "auth": false,
+      "id": 9
+    },
+    {
+      "name": "Александр",
+      "lastName": "Пупышев",
+      "email": "alex1@mail.ru",
+      "password": "fhfdhdfhfdasdas",
+      "auth": false,
+      "id": 10
+    },
+    {
+      "name": "Александр",
+      "lastName": "Пупышев",
+      "email": "alex21@mail.ru",
+      "password": "fhfdhdfhfdasdas",
+      "auth": false,
+      "id": 11
+    },
+    {
+      "name": "Александр",
+      "lastName": "Пупышев",
+      "email": "alex221@mail.ru",
+      "password": "fhfdhdfhfdasdas",
+      "auth": false,
+      "id": 12
+    },
+    {
+      "name": "121",
+      "lastName": "213123",
+      "email": "alex22221@mail.ru",
+      "password": "fhfdhdfhfdasdas",
+      "auth": false,
+      "id": 13
+    },
+    {
+      "name": "Александр",
+      "lastName": "Пупышев",
+      "email": "alex222221@mail.ru",
+      "password": "fhfdhdfhfdasdas",
+      "auth": false,
+      "id": 14
+    },
+    {
+      "name": "Александр",
+      "lastName": "Пупышев",
+      "email": "alex222221@mail.ru",
+      "password": "fhfdhdfhfdasdas",
+      "auth": true,
+      "id": 15
+    },
+    {
+      "name": "Александр",
+      "lastName": "Пупышев",
+      "email": "alex2332222221@mail.ru",
+      "password": "fhfdhdfhfdasdas",
+      "auth": true,
+      "id": 16
+    },
+    {
+      "name": "Александр",
+      "lastName": "Пупышев",
+      "email": "alex233222222221@mail.ru",
+      "password": "fhfdhdfhfdasdas",
+      "auth": true,
+      "id": 17
+    },
+    {
+      "name": "Александр",
+      "lastName": "Пупышев",
+      "email": "alex2221@mail.ru",
+      "password": "fhfdhdfhfdasdas",
+      "auth": true,
+      "id": 18
+    },
+    {
+      "name": "Александр",
+      "lastName": "Пупышев",
+      "email": "alex22214@mail.ru",
+      "password": "fhfdhdfhfdasdas",
+      "auth": true,
+      "id": 19
+    },
+    {
+      "name": "Александр",
+      "lastName": "Пупышев",
+      "email": "alex222414@mail.ru",
+      "password": "fhfdhdfhfdasdas",
+      "auth": true,
+      "id": 20
+    },
+    {
+      "name": "Александр",
+      "lastName": "Пупышев",
+      "email": "alexKPKPK@mail.ru",
+      "password": "fhfdhdfhfdasdas",
+      "auth": true,
+      "id": 21
+    },
+    {
+      "name": "Александр",
+      "lastName": "Пупышев",
+      "email": "alexKP2KPK@mail.ru",
+      "password": "fhfdhdfhfdasdas",
+      "auth": true,
+      "id": 22
+    },
+    {
+      "name": "Александр",
+      "lastName": "Пупышев",
+      "email": "alexK333P2KPK@mail.ru",
+      "password": "fhfdhdfhfdasdas",
+      "auth": true,
+      "id": 23
+    },
+    {
+      "name": "Александр",
+      "lastName": "Пупышев",
+      "email": "11lexK333P2KPK@mail.ru",
+      "password": "fhfdhdfhfdasdas",
+      "auth": true,
+      "id": 24
+    }
+  ],
+  "test": {
+    "id": "",
+    "login": "11lexK333P2KPK@mail.ru",
+    "password": "fhfdhdfhfdasdas"
+  }
+}
