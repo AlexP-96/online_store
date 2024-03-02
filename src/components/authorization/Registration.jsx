@@ -9,148 +9,180 @@ import {
     useDispatch,
 } from 'react-redux';
 
+import axios from 'axios';
+
 import { actionUserAuth } from '../../redux/actions/actionsAuth';
 
 import spinner from '../../source/spinners/Iphone-spinner-2.gif';
 import { useNavigate } from 'react-router-dom';
 
-const Authorization = () => {
+const Registration = () => {
 
     const dispatchUser = useDispatch();
     const selector = useSelector(state => state.userAuth);
 
     const navigate = useNavigate();
 
-    const url = 'http://localhost:3000/';
-
-    const [registration, setRegistration] = useState({
-        name: '',
-        lastName: '',
+    const [resError, setResError] = useState('');
+    const [dataUser, setDataUser] = useState({
+        username: '',
+        lastUserName: '',
         email: '',
         password: '',
-        auth: false,
     });
     const [isLoad, setLoad] = useState(false);
 
     useEffect(() => {
-        let authUser = JSON.parse(localStorage.getItem('authUser'));
+        if (localStorage.getItem('token') !== null) {
+            dispatchUser(actionUserAuth({ token: localStorage.getItem('token') }));
+        }
 
-        // if (authUser) {
-        //     navigate('/study');
-        // }
-    }, [JSON.parse(localStorage.getItem('authUser'))]);
-
-    const validateEmail = (email) => {
-        const regex = /^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/;
-        return regex.test(email);
-    };
+    }, [localStorage.getItem('token')]);
 
     const regDateUser = (e, value) => {
-        setRegistration({
-            ...registration,
+        setDataUser({
+            ...dataUser,
             [value]: e.target.value,
         });
     };
 
-    const submitData = (e) => {
-        setLoad(true);
+    const registrationUser = async (e) => {
         e.preventDefault();
+        setLoad(true);
+        setResError('');
 
-        if (validateEmail(registration.email)) {
+        const url = 'http://localhost:3000/api/create-user';
 
-            (async function () {
-                try {
+        const postData = {
+            username: dataUser.username,
+            lastUserName: dataUser.lastUserName,
+            email: dataUser.email,
+            password: dataUser.password,
+        };
 
-                    let response = await fetch(url + 'accounts');
+        const configData = {
+            headers: {
+                'Content-Type': 'application/json',
+            },
+        };
 
-                    let fetchUsers = await response.json();
-
-                    let dataCurrent = fetchUsers.find(empty => (registration.email === empty.email));
-
-                    if (dataCurrent === undefined) {
-                        await setRegistration({
-                            ...registration,
-                            auth: true,
-                        });
-
-                        let postData = await fetch(url + 'accounts', {
-                            method: 'POST',
-                            headers: {
-                                'Content-Type': 'application/json;charset=utf-8',
-                            },
-                            body: JSON.stringify({
-                                ...registration,
-                                auth: true,
-                            }),
-                        });
-
-                        let dataRes = await postData.json();
-
-                        await localStorage.setItem('authUser', true);
-
-                        setLoad(false);
-
-                        alert(`Пользователь с именем ${dataRes.name} успешно зарегистрирован`);
-
-                        dispatchUser(actionUserAuth({
-                            name: dataRes.name,
-                            email: dataRes.email,
-                        }));
-
-                        if (selector.auth) {
-                            navigate('/study');
-                        }
-
-                    } else {
-                        alert(`Данный email уже заргестрирован, попробуйде другой`);
-                        setLoad(false);
-                    }
-                } catch (err) {
-                    alert(err);
-                }
-            })();
-        }
+        await axios.post(url, postData, configData).then(res => {
+            dispatchUser(actionUserAuth({
+                name: dataUser.username,
+                email: dataUser.email,
+                token: res.data.token,
+            }));
+            localStorage.setItem('token', selector.token);
+            setLoad(false);
+            setResError('');
+        }).catch(err => {
+            setLoad(false);
+            setResError(err.response.data);
+        });
 
     };
 
+    // const submitData = (e) => {
+    //     setLoad(true);
+    //     e.preventDefault();
+    //
+    //     if (validateEmail(registration.email)) {
+    //
+    //         (async function () {
+    //             try {
+    //
+    //                 let response = await fetch(url + 'accounts');
+    //
+    //                 let fetchUsers = await response.json();
+    //
+    //                 let dataCurrent = fetchUsers.find(empty => (registration.email === empty.email));
+    //
+    //                 if (dataCurrent === undefined) {
+    //                     await setRegistration({
+    //                         ...registration,
+    //                         auth: true,
+    //                     });
+    //
+    //                     let postData = await fetch(url + 'accounts', {
+    //                         method: 'POST',
+    //                         headers: {
+    //                             'Content-Type': 'application/json;charset=utf-8',
+    //                         },
+    //                         body: JSON.stringify({
+    //                             ...registration,
+    //                             auth: true,
+    //                         }),
+    //                     });
+    //
+    //                     let dataRes = await postData.json();
+    //
+    //                     await localStorage.setItem('authUser', true);
+    //
+    //                     setLoad(false);
+    //
+    //                     alert(`Пользователь с именем ${dataRes.name} успешно зарегистрирован`);
+    //
+    //                     dispatchUser(actionUserAuth({
+    //                         name: dataRes.name,
+    //                         email: dataRes.email,
+    //                     }));
+    //
+    //                     if (selector.auth) {
+    //                         navigate('/study');
+    //                     }
+    //
+    //                 } else {
+    //                     alert(`Данный email уже заргестрирован, попробуйде другой`);
+    //                     setLoad(false);
+    //                 }
+    //             } catch (err) {
+    //                 alert(err);
+    //             }
+    //         })();
+    //     }
+    //
+    // };
+
     return (
         <div className='c__authorization'>
+            <div>Ваш токен: {selector.token}</div>
             <h3>Регистрация</h3>
+            <div>{resError}</div>
             {isLoad && <img
                 src={spinner}
                 alt='spinner'
             />}
             {!isLoad &&
                 <form
-                    onSubmit={submitData}
+                    onSubmit={registrationUser}
                     action='online_store/src/components/authorization/Registration'
                     className='form__authorization'
                 >
                     <input
                         type='text'
                         required
-                        value={registration.name}
+                        value={dataUser.username}
                         placeholder='name'
-                        onChange={(e) => regDateUser(e, 'name')}
+                        onChange={(e) => regDateUser(e, 'username')}
                     />
                     <input
                         type='text'
                         placeholder='last_name'
-                        value={registration.lastName}
-                        onChange={(e) => regDateUser(e, 'lastName')}
+                        value={dataUser.lastUserName}
+                        onChange={(e) => regDateUser(e, 'lastUserName')}
                     />
                     <input
                         type='text'
                         required
                         placeholder='email'
-                        value={registration.email}
+                        value={dataUser.email}
                         onChange={(e) => regDateUser(e, 'email')}
                     />
                     <input
                         type='password'
                         required
                         placeholder='password'
-                        value={registration.password}
+                        value={dataUser.password}
                         onChange={(e) => regDateUser(e, 'password')}
                     />
                     <input
@@ -166,4 +198,4 @@ const Authorization = () => {
     );
 };
 
-export default Authorization;
+export default Registration;

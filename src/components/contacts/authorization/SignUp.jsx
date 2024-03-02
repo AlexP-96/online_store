@@ -40,7 +40,6 @@ const SignUp = () => {
 
                 let validEmail = data.find(user => user.email === reg.login);
 
-
                 if (validEmail.password === reg.password) {
                     dispatch(actionUserAuth({
                         name: validEmail.name,

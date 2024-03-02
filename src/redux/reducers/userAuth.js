@@ -3,14 +3,7 @@ import { USER_AUTH } from '../actions/actionsAuth';
 const stateUserAuth = {
     name: '',
     email: '',
-    auth: false,
-    // card: [
-    //     {
-    //         product: '',
-    //         name: '',
-    //         count: '',
-    //     },
-    // ],
+    token: '',
 };
 
 export const userAuth = (
@@ -26,7 +19,7 @@ export const userAuth = (
                 ...state,
                 name: payload.name,
                 email: payload.email,
-                auth: true,
+                token: payload.token,
             };
         default:
             return {
