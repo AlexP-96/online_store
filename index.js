@@ -3,6 +3,7 @@ const express = require('express');
 const jwt = require('jsonwebtoken');
 // const mysql = require('mysql2/promise');
 // const nodemailer = require('nodemailer');
+const { v4: uuidv4 } = require('uuid');
 const fs = require('fs');
 const bcrypt = require('bcrypt');
 const cors = require('cors');
@@ -20,18 +21,6 @@ const SECRET_KEY = process.env.SECRET_KEY;
 app.use(express.json());
 
 app.post('/api/create-user', async (req, res) => {
-
-    // const token = req.headers.authorization;
-    // if (!token) {
-    //     return res.status(400).send('Токен не предоставлен');
-    // }
-    //
-    // try {
-    //     const decoded = jwt.verify(token, SECRET_KEY);
-    //     console.log('Декодирование данных токена: ', decoded);
-    // } catch (err) {
-    //     return res.status(401).send('Неверный токен');
-    // }
 
     const data = req.body;
 
@@ -52,47 +41,82 @@ app.post('/api/create-user', async (req, res) => {
 
     const hashedPass = await bcrypt.hash(data.password, 10);
 
+    const token = jwt.sign({ email: data.email }, SECRET_KEY, { expiresIn: '24h' });
+
     const userWithHashedPass = {
         ...data,
         password: hashedPass,
+        id: uuidv4(),
     };
 
     // Чтение и обновление файла
+    try {
+        await fs.readFile(USERS_FILE, (err, fileData) => {
 
-    fs.readFile(USERS_FILE, (err, fileData) => {
+            if (err && err.code === 'ENOENT' || fileData.length === 0) {
+                // Если файла нет, создаем новый с массивом
+                fs.writeFile(USERS_FILE, JSON.stringify([userWithHashedPass]), (err) => {
+                    if (err) throw err;
+                    console.log('Регистрационные данные о новом пользователе сохранены.');
+                });
+            } else if (err) {
+                console.error('Ошибка при чтении файла:', err);
+                res.status(500).send('Ошибка сервера');
+                return;
+            } else if (JSON.parse(fileData).find(u => u.email === data.email)) {
+                console.log('Данный пользователь уже зарегистрирован');
+                res.status(403).send('Данный email уже зарегистрирован, введите другой');
+                return;
+            } else {
+                // Если файл есть, дописываем данные в массив
+                const existingData = JSON.parse(fileData);
+                existingData.push(userWithHashedPass);
+                fs.writeFile(USERS_FILE, JSON.stringify(existingData), (err) => {
+                    if (err) throw err;
+                    console.log('Данные добавлены.');
+                });
+            }
 
-        if (err && err.code === 'ENOENT' || fileData.length === 0) {
-            // Если файла нет, создаем новый с массивом
-            fs.writeFile(USERS_FILE, JSON.stringify([userWithHashedPass]), (err) => {
-                if (err) throw err;
-                console.log('Регистрационные данные о новом пользователе сохранены.');
-            });
-        } else if (err) {
-            console.error('Ошибка при чтении файла:', err);
-            res.status(500).send('Ошибка сервера');
-            return;
-        } else if (JSON.parse(fileData).find(u => u.email === data.email)) {
-            console.log('Данный пользователь уже зарегистрирован');
-            res.status(403).send('Данный email уже зарегистрирован, введите другой');
-            return;
-        } else {
-            // Если файл есть, дописываем данные в массив
-            const existingData = JSON.parse(fileData);
-            existingData.push(userWithHashedPass);
-            fs.writeFile(USERS_FILE, JSON.stringify(existingData), (err) => {
-                if (err) throw err;
-                console.log('Данные добавлены.');
-            });
-        }
-        // Отправка ответа клиенту
-        const token = jwt.sign({ email: data.email }, SECRET_KEY, { expiresIn: '24h' });
+            res.status(200)
+                .send({
+                    token,
+                    email: data.email
+                });
+        });
+    } catch (err) {
+        console.log('Не удалось добавить пользователя, ошибка сервера');
+        res.status(500).send('Не удалось добавить пользователя, ошибка сервера');
+    }
 
-        res.status(200)
-            .send({
-                token,
-            });
+});
 
-    });
+app.post('/api/is-token', async (req, res) => {
+    try {
+        const {
+            email,
+            token,
+        } = req.body;
+
+        await fs.readFile(USERS_FILE, async (err, data) => {
+            if (err) return res.status(400).send('Ошибка при чтении файла');
+
+            const users = JSON.parse(data);
+            const user = users.find(u => u.email === email);
+
+            if (!user) {
+                console.log(`Пользователь ${user} не найден.`);
+                return res.status(400).send('Пользователь не найден.');
+            } else {
+                return user.token === token
+                    ? res.status(200).send('Токены совпадают')
+                    : res.status(400).send('Токены не совпадают');
+            }
+
+        });
+    } catch (err) {
+        console.log('Ошибка проверки токена');
+        res.status(500).send('Ошибка сервера при проверке токена');
+    }
 });
 
 app.post('/api/login-user', async (req, res) => {
@@ -100,18 +124,6 @@ app.post('/api/login-user', async (req, res) => {
         email,
         password,
     } = req.body;
-
-    // const token = req.headers.authorization;
-    // if (!token) {
-    //     return res.status(400).send('Токен не предоставлен');
-    // }
-    //
-    // try {
-    //     const decoded = jwt.verify(token, SECRET_KEY);
-    //     console.log('Декодирование данных токена: ', decoded);
-    // } catch (err) {
-    //     return res.status(401).send('Неверный токен');
-    // }
 
     await fs.readFile(USERS_FILE, async (err, data) => {
         if (err) return res.status(500).send('Ошибка при чтении файла пользователей.');
