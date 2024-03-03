@@ -1,4 +1,6 @@
-import React, { useState } from 'react';
+import React, {
+    useEffect,
+} from 'react';
 
 import './css_default/bootstrap.min.css';
 import './css_default/slick-theme.css';
@@ -12,6 +14,8 @@ import {
     Route,
     BrowserRouter,
 } from 'react-router-dom';
+
+import axios from 'axios';
 
 import { useSelector } from 'react-redux';
 
@@ -27,41 +31,28 @@ import Registration from './components/authorization/Registration';
 import UserAuthorized from './components/authorizied_user/UserAuthorized';
 
 const App = () => {
+
         const selectorAuthUser = useSelector(state => state.userAuth);
 
-        const [userData, setUserData] = useState({
-            username: '',
-            password: '',
-        });
+        useEffect(() => {
+            const email = localStorage.getItem('emailUser');
+            const token = localStorage.getItem('token');
+            if (email !== null && token !== null) {
+                const dataPostUserAuth = {
+                    email: email,
+                    token: token,
+                };
+                const configPost = {
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                };
+                axios.post('http://localhost:3000/api/is-token', dataPostUserAuth, configPost).then(res => {
+                    console.log(res.data);
+                });
 
-        const getValueInput = (e, key) => {
-            setUserData({
-                ...userData,
-                [key]: e.target.value,
-            });
-        };
-
-    //     const loginUser = async (e) => {
-    //     e.preventDefault();
-    //     const url = 'http://localhost:3000/api/login-user';
-    //     const postData = {
-    //         email: userData.username,
-    //         password: userData.password,
-    //     };
-    //
-    //     const configData = {
-    //         headers: {
-    //             'Content-Type': 'application/json',
-    //         },
-    //     };
-    //
-    //     const response = await axios.post(url, postData, configData).then(res => {
-    //         localStorage.setItem('tokenAuth', res.data.token);
-    //         console.log(res.data);
-    //     }).catch((err) => {
-    //         console.log(err.response.data);
-    //     });
-    // };
+            }
+        }, []);
 
         return (
             <BrowserRouter>
@@ -85,7 +76,7 @@ const App = () => {
                             path='/shop'
                             element={<Shop />}
                         />
-                        {!selectorAuthUser.auth &&
+                        {!selectorAuthUser.token &&
                             <>
                                 <Route
                                     path='/sign_up'
@@ -98,7 +89,7 @@ const App = () => {
                             </>
 
                         }
-                        {selectorAuthUser.auth && <Route
+                        {selectorAuthUser.token && <Route
                             path='/study'
                             element={<UserAuthorized />}
                         />}

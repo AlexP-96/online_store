@@ -1,8 +1,6 @@
 import { USER_AUTH } from '../actions/actionsAuth';
 
 const stateUserAuth = {
-    name: '',
-    email: '',
     token: '',
 };
 
@@ -17,8 +15,6 @@ export const userAuth = (
         case USER_AUTH:
             return {
                 ...state,
-                name: payload.name,
-                email: payload.email,
                 token: payload.token,
             };
         default:

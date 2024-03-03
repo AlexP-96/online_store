@@ -10,10 +10,10 @@ const UserAuthorized = () => {
     console.log(userIsAuth);
 
     let dataStorage = JSON.parse(localStorage.getItem('authUser'));
-
-    useEffect(() => {
-        // infoUser();
-    }, []);
+    //
+    // useEffect(() => {
+    //     // infoUser();
+    // }, []);
 
     const url = 'http://localhost:3000/';
 
