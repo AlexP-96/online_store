@@ -1,3 +1,5 @@
+import React from 'react';
+
 import ProductCard from "./product_card/ProductCard";
 import OurBrands from "./our_brands/OurBrands";
 import PaginationContent from "./pagination_content/PaginationContent";

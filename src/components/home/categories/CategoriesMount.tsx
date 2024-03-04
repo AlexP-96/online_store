@@ -1,3 +1,5 @@
+import React from 'react';
+
 import img1 from '../../../source/img/category_img_01.jpg';
 import img2 from '../../../source/img/category_img_02.jpg';
 import img3 from '../../../source/img/category_img_03.jpg';
@@ -5,30 +7,7 @@ import img3 from '../../../source/img/category_img_03.jpg';
 
 const CategoriesMounts = () => {
 
-    const token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6IkFMZXhSZWFjdCIsImlhdCI6MTcwOTE5NTc5OCwiZXhwIjoxNzA5MjgyMTk4fQ.9cNnN47TSeM1Trwnk_NjpQCMBDon6RamchqvIic1vA0"
 
-    const getUser = async () => {
-
-        const response = await fetch('http://localhost:3000/api/login-user', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({
-                username: 'ALexReact',
-                password: '12345122'
-            })
-        }).then(res => {
-            if(res.ok) {
-                return res.json();
-            }
-            throw new Error('Ошибка сети при попытке выполнить запрос.');
-        }).then(data => {
-            console.log(data);
-        })
-
-
-    }
 
     return (
         <section className="container py-5">
@@ -44,7 +23,7 @@ const CategoriesMounts = () => {
         <div className="row">
             <div className="col-12 col-md-4 p-5 mt-3">
                 <a href="/"><img src={img1} alt='img' className="rounded-circle img-fluid border"/></a>
-                <h5 className="text-center mt-3 mb-3" onClick={getUser}>Watches</h5>
+                <h5 className="text-center mt-3 mb-3">Watches</h5>
                 <p className="text-center"><a href='/' className="btn btn-success">Go Shop</a></p>
             </div>
             <div className="col-12 col-md-4 p-5 mt-3">

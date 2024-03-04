@@ -1,3 +1,5 @@
+import React from 'react';
+
 import img1 from '../../../source/img/banner_img_01.jpg';
 import img2 from '../../../source/img/banner_img_02.jpg';
 import img3 from '../../../source/img/banner_img_03.jpg';
@@ -41,8 +43,6 @@ const BannerHero = () => {
                     slidesPerView={1}
                     pagination={{ clickable: true }}
                     scrollbar={{ draggable: true }}
-                    onSwiper={(swiper) => console.log(swiper)}
-                    onSlideChange={() => console.log('slide change')}
                 >
                     <SwiperSlide>
                         <div className='carousel-item'>

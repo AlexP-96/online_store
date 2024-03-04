@@ -1,13 +1,11 @@
 import React, {
     ChangeEvent,
     FormEventHandler,
-    useEffect,
     useState,
 } from 'react';
 
 import './style.css';
 import {
-    useSelector,
     useDispatch,
 } from 'react-redux';
 
@@ -18,13 +16,11 @@ import { actionUserAuth } from '../../redux/actions/actionsAuth';
 import spinner from '../../source/spinners/Iphone-spinner-2.gif';
 import { useNavigate } from 'react-router-dom';
 
-import { IState } from '../../common/types';
 import { IRegistrationForm } from './types';
 
 const Registration = () => {
 
     const dispatchUser = useDispatch();
-    const userAuth = useSelector((state: IState) => state.userAuth);
 
     const navigate = useNavigate();
 

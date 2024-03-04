@@ -1,3 +1,5 @@
+import React from 'react';
+
 import { Link } from 'react-router-dom';
 
 import {
@@ -8,7 +10,7 @@ import {
 import { useEffect } from 'react';
 
 const HeaderBottom = () => {
-    let isAuth = JSON.parse(localStorage.getItem('authUser'));
+
 
     // useEffect(() => {
     //     if(isAuth)
@@ -99,29 +101,29 @@ const HeaderBottom = () => {
                             <i className='fa fa-fw fa-cart-arrow-down text-dark mr-1'></i>
                             <span className='position-absolute top-0 left-100 translate-middle badge rounded-pill bg-light text-dark'></span>
                         </a>
-                        {isAuth && <Link
+                        <Link
                             className='nav-icon position-relative text-decoration-none'
                             to='/sign_up'
                         >
                             <i className='fa fa-fw fa-user text-dark mr-3'></i>
                             <span className='top-0 badge rounded-pill text-dark'>Личный кабинет</span>
-                        </Link>}
+                        </Link>
 
-                        {!isAuth && <Link
+                        <Link
                             className='nav-icon position-relative text-decoration-none'
                             to='/sign_up'
                         >
                             <i className='fa fa-fw fa-user text-dark mr-3'></i>
                             <span className='top-0 badge rounded-pill text-dark'>Вход</span>
-                        </Link>}
+                        </Link>
 
-                        {!isAuth && <Link
+                        <Link
                             className='nav-icon position-relative text-decoration-none'
                             to='/authorization'
                         >
                             <i className='fas fa-sign-in-alt'></i>
                             <span className='top-0 badge rounded-pill text-dark'>Регистрация</span>
-                        </Link>}
+                        </Link>
 
                     </div>
                 </div>

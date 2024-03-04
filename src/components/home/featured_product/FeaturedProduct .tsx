@@ -1,3 +1,5 @@
+import React from 'react';
+
 import img1 from '../../../source/img/feature_prod_01.jpg';
 import img2 from '../../../source/img/feature_prod_02.jpg';
 import img3 from '../../../source/img/feature_prod_03.jpg';

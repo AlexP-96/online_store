@@ -1,3 +1,5 @@
+import React from 'react';
+
 const Modal = () => {
     return (
         <div className="modal fade bg-white" id="templatemo_search" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">

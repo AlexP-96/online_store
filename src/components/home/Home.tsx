@@ -1,3 +1,5 @@
+import React from 'react';
+
 import Modal from './main/Modal';
 import BannerHero from './banner/BannerHero';
 import CategoriesMounts from './categories/CategoriesMount';
