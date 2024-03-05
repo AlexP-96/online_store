@@ -1,12 +1,12 @@
 require('dotenv').config();
 const express = require('express');
 const jwt = require('jsonwebtoken');
-// const mysql = require('mysql2/promise');
 // const nodemailer = require('nodemailer');
 const { v4: uuidv4 } = require('uuid');
 const fs = require('fs');
 const bcrypt = require('bcrypt');
 const cors = require('cors');
+const { decode } = require('jsonwebtoken');
 
 const PORT = process.env.PORT || process.env.PORT_REZERVER;
 
@@ -36,7 +36,7 @@ app.post('/api/create-user', async (req, res) => {
         console.log(`Пользователь ${data.username} ввел не корректный пароль`);
         return res.status(403)
             .send(
-                'Пароль не соответствует требованиям безопасности, пароль должен содержать: не менее 8-ми символов, должен содеражть строчные и заглавные буквы, а также хотя бы один спецсимвол');
+                'Пароль не соответствует требованиям безопасности, пароль должен содержать: не менее 8-ми символов, должен содеражть цифры, строчные и заглавные буквы, а также хотя бы один спецсимвол');
     }
 
     const hashedPass = await bcrypt.hash(data.password, 10);
@@ -80,7 +80,7 @@ app.post('/api/create-user', async (req, res) => {
             res.status(200)
                 .send({
                     token,
-                    email: data.email
+                    email: data.email,
                 });
         });
     } catch (err) {
@@ -91,28 +91,35 @@ app.post('/api/create-user', async (req, res) => {
 });
 
 app.post('/api/is-token', async (req, res) => {
+
     try {
         const {
-            email,
             token,
         } = req.body;
+        try {
+            const decodeToken = await jwt.verify(token, SECRET_KEY);
+            console.log('Токен действителен. Декодированная информация:', decodeToken);
+            await fs.readFile(USERS_FILE, async (err, data) => {
+                if (err) return res.status(400).send('Ошибка при чтении файла');
 
-        await fs.readFile(USERS_FILE, async (err, data) => {
-            if (err) return res.status(400).send('Ошибка при чтении файла');
+                const users = JSON.parse(data);
+                const user = users.find(u => u.email === decodeToken.email);
 
-            const users = JSON.parse(data);
-            const user = users.find(u => u.email === email);
+                if (!user) {
+                    console.log(`Пользователь ${user} не найден.`);
+                    return res.status(400).send('Пользователь не найден.');
+                } else {
+                    return user.email === decodeToken.email
+                        ? res.status(200).send('Токены совпадают')
+                        : res.status(400).send('Токены не совпадают');
+                }
 
-            if (!user) {
-                console.log(`Пользователь ${user} не найден.`);
-                return res.status(400).send('Пользователь не найден.');
-            } else {
-                return user.token === token
-                    ? res.status(200).send('Токены совпадают')
-                    : res.status(400).send('Токены не совпадают');
-            }
+            });
 
-        });
+        } catch (err) {
+            console.error('Токен недействителен или произошла другая ошибка:', err.message);
+        }
+
     } catch (err) {
         console.log('Ошибка проверки токена');
         res.status(500).send('Ошибка сервера при проверке токена');
